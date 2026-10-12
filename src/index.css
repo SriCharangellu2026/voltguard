@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background-image:
+      radial-gradient(circle at 15% -10%, rgba(250, 204, 21, 0.06), transparent 40%),
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: auto, 32px 32px, 32px 32px;
+    min-height: 100vh;
+  }
+  ::selection {
+    background: #facc15;
+    color: #07090c;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-lg border border-steel-700 bg-steel-900/90 shadow-lg shadow-black/40;
+  }
+  .panel-header {
+    @apply flex items-center justify-between gap-3 border-b border-steel-700 px-4 py-3;
+  }
+  .panel-title {
+    @apply flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-300;
+  }
+  .field-label {
+    @apply mb-1 block text-[10px] font-semibold uppercase tracking-widest text-slate-500;
+  }
+  .field-input {
+    @apply w-full rounded border border-steel-600 bg-steel-950 px-2.5 py-1.5 text-sm text-slate-100
+      placeholder:text-slate-600 focus-visible:border-hazard-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hazard-yellow;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-3 py-2 text-xs font-bold uppercase tracking-wider
+      transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hazard-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-steel-950
+      disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-hazard-yellow text-steel-950 hover:bg-yellow-300;
+  }
+  .btn-ghost {
+    @apply btn border border-steel-600 bg-steel-850 text-slate-200 hover:border-slate-400 hover:bg-steel-800;
+  }
+  .btn-danger {
+    @apply btn border border-red-500/60 bg-red-950/60 text-red-200 hover:bg-red-900/70;
+  }
+  .icon-btn {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded border border-steel-600 bg-steel-850 text-slate-300
+      hover:border-slate-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hazard-yellow
+      focus-visible:ring-offset-2 focus-visible:ring-offset-steel-950 disabled:cursor-not-allowed disabled:opacity-30;
+  }
+  .check-input {
+    @apply mt-0.5 h-4 w-4 shrink-0 accent-yellow-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hazard-yellow
+      focus-visible:ring-offset-2 focus-visible:ring-offset-steel-950;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider;
+  }
+}
+
+@keyframes hazard-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+.animate-hazard {
+  animation: hazard-pulse 1.6s ease-in-out infinite;
+}
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0.5in;
+  }
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #loto-card, #loto-card * {
+    visibility: visible;
+  }
+  #loto-card {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

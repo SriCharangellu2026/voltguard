@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "name": "VoltGuard Safety Playbook",
+    "version": "2026.1",
+    "references": [
+      "NFPA 70E-2024 Standard for Electrical Safety in the Workplace",
+      "NFPA 70E Annex D - Incident Energy and Arc Flash Boundary Calculation Methods",
+      "OSHA 29 CFR 1910.269 - Electric Power Generation, Transmission, and Distribution",
+      "OSHA 29 CFR 1910.147 - Control of Hazardous Energy (Lockout/Tagout)",
+      "ASTM D120 - Standard Specification for Rubber Insulating Gloves"
+    ],
+    "disclaimer": "Reference approximations for training and pre-job planning. A stamped arc flash study (IEEE 1584) and the employer's written switching procedures govern field work."
+  },
+
+  "arcFlash": {
+    "arcFlashBoundaryThresholdCal": 1.2,
+    "secondDegreeBurnThresholdCal": 1.2,
+    "maxClearingTimeCapS": 2.0,
+    "methods": {
+      "lee": {
+        "name": "Ralph Lee Method (NFPA 70E Annex D.2)",
+        "formula": "E = 5.12e5 x V x Ibf x (t / D^2)",
+        "units": "E cal/cm^2, V kV, Ibf kA, t s, D mm",
+        "constantCal": 512000,
+        "notes": "Theoretical maximum open-air arc power. Conservative for systems above 600 V; may be excessively conservative below 600 V."
+      },
+      "doughtyOpenAir": {
+        "name": "Doughty-Neal Method, Arc in Open Air (NFPA 70E Annex D.4)",
+        "formula": "E = 5271 x D^-1.9593 x t x (0.0016F^2 - 0.0076F + 0.8938)",
+        "units": "E cal/cm^2, D in, t s, F kA",
+        "k": 5271,
+        "exponent": 1.9593,
+        "poly": [0.0016, -0.0076, 0.8938],
+        "validity": { "maxKV": 0.6, "minKA": 16, "maxKA": 50, "minDistanceIn": 18 }
+      },
+      "doughtyBox": {
+        "name": "Doughty-Neal Method, Arc in Cubic Box (NFPA 70E Annex D.4)",
+        "formula": "E = 1038.7 x D^-1.4738 x t x (0.0093F^2 - 0.3453F + 5.9675)",
+        "units": "E cal/cm^2, D in, t s, F kA",
+        "k": 1038.7,
+        "exponent": 1.4738,
+        "poly": [0.0093, -0.3453, 5.9675],
+        "validity": { "maxKV": 0.6, "minKA": 16, "maxKA": 50, "minDistanceIn": 18 }
+      }
+    }
+  },
+
+  "ppeCategories": [
+    {
+      "category": 0,
+      "label": "Below Arc Flash Threshold",
+      "maxCal": 1.2,
+      "minArcRatingCal": 0,
+      "color": "#22c55e",
+      "items": [
+        "Non-melting, flammable natural-fiber clothing (untreated cotton, wool, silk)",
+        "Safety glasses or safety goggles (SR)",
+        "Hearing protection (ear canal inserts)",
+        "Heavy-duty leather gloves or rubber insulating gloves with leather protectors (as needed for shock)"
+      ]
+    },
+    {
+      "category": 1,
+      "label": "PPE Category 1",
+      "maxCal": 4,
+      "minArcRatingCal": 4,
+      "color": "#eab308",
+      "items": [
+        "Arc-rated long-sleeve shirt and pants or arc-rated coverall (min. 4 cal/cm²)",
+        "Arc-rated face shield or arc flash suit hood (min. 4 cal/cm²)",
+        "Arc-rated jacket, parka, rainwear, or hard hat liner (AN)",
+        "Hard hat",
+        "Safety glasses or safety goggles (SR)",
+        "Hearing protection (ear canal inserts)",
+        "Heavy-duty leather gloves or rubber insulating gloves with leather protectors",
+        "Leather footwear (AN)"
+      ]
+    },
+    {
+      "category": 2,
+      "label": "PPE Category 2",
+      "maxCal": 8,
+      "minArcRatingCal": 8,
+      "color": "#f59e0b",
+      "items": [
+        "Arc-rated long-sleeve shirt and pants or arc-rated coverall (min. 8 cal/cm²)",
+        "Arc-rated flash suit hood, or arc-rated face shield and arc-rated balaclava (min. 8 cal/cm²)",
+        "Arc-rated jacket, parka, rainwear, or hard hat liner (AN)",
+        "Hard hat",
+        "Safety glasses or safety goggles (SR)",
+        "Hearing protection (ear canal inserts)",
+        "Heavy-duty leather gloves or rubber insulating gloves with leather protectors",
+        "Leather footwear"
+      ]
+    },
+    {
+      "category": 3,
+      "label": "PPE Category 3",
+      "maxCal": 25,
+      "minArcRatingCal": 25,
+      "color": "#f97316",
+      "items": [
+        "Arc-rated long-sleeve shirt and pants (AR) or coverall selected for total system rating of 25 cal/cm²",
+        "Arc-rated arc flash suit jacket and pants (AR)",
+        "Arc-rated arc flash suit hood (min. 25 cal/cm²)",
+        "Arc-rated gloves or rubber insulating gloves with leather protectors",
+        "Arc-rated jacket, parka, rainwear, or hard hat liner (AN)",
+        "Hard hat",
+        "Safety glasses or safety goggles (SR)",
+        "Hearing protection (ear canal inserts)",
+        "Leather footwear"
+      ]
+    },
+    {
+      "category": 4,
+      "label": "PPE Category 4",
+      "maxCal": 40,
+      "minArcRatingCal": 40,
+      "color": "#ef4444",
+      "items": [
+        "Arc-rated long-sleeve shirt and pants (AR) or coverall selected for total system rating of 40 cal/cm²",
+        "Arc-rated arc flash suit jacket and pants (AR)",
+        "Arc-rated arc flash suit hood (min. 40 cal/cm²)",
+        "Arc-rated gloves or rubber insulating gloves with leather protectors",
+        "Arc-rated jacket, parka, rainwear, or hard hat liner (AN)",
+        "Hard hat",
+        "Safety glasses or safety goggles (SR)",
+        "Hearing protection (ear canal inserts)",
+        "Leather footwear"
+      ]
+    }
+  ],
+
+  "dangerLevel": {
+    "label": "DANGER - Exceeds PPE Category 4",
+    "minCal": 40,
+    "color": "#a21caf",
+    "items": [
+      "No standard PPE category is adequate - energized work is prohibited by this playbook",
+      "De-energize the equipment and establish an electrically safe work condition (NFPA 70E 120.5)",
+      "Perform switching remotely (SCADA, remote racking device, or hot-stick from outside the arc flash boundary)",
+      "Engineering review of protective device settings (maintenance switch / reduced clearing time) required"
+    ]
+  },
+
+  "approachBoundaries": {
+    "source": "NFPA 70E-2024 Table 130.4(E)(a) - AC systems, phase-to-phase",
+    "ranges": [
+      { "minKV": 0.05, "maxKV": 0.15, "label": "50 V - 150 V", "limitedMovableM": 3.0, "limitedFixedM": 1.0, "restrictedM": 0.0, "restrictedNote": "Avoid contact" },
+      { "minKV": 0.151, "maxKV": 0.75, "label": "151 V - 750 V", "limitedMovableM": 3.0, "limitedFixedM": 1.0, "restrictedM": 0.3 },
+      { "minKV": 0.751, "maxKV": 15.0, "label": "751 V - 15 kV", "limitedMovableM": 3.0, "limitedFixedM": 1.5, "restrictedM": 0.7 },
+      { "minKV": 15.1, "maxKV": 36.0, "label": "15.1 kV - 36 kV", "limitedMovableM": 3.0, "limitedFixedM": 1.8, "restrictedM": 0.8 },
+      { "minKV": 36.1, "maxKV": 46.0, "label": "36.1 kV - 46 kV", "limitedMovableM": 3.0, "limitedFixedM": 2.5, "restrictedM": 0.8 },
+      { "minKV": 46.1, "maxKV": 72.5, "label": "46.1 kV - 72.5 kV", "limitedMovableM": 3.0, "limitedFixedM": 2.5, "restrictedM": 1.0 },
+      { "minKV": 72.6, "maxKV": 121.0, "label": "72.6 kV - 121 kV", "limitedMovableM": 3.3, "limitedFixedM": 2.5, "restrictedM": 1.0 },
+      { "minKV": 138.0, "maxKV": 145.0, "label": "138 kV - 145 kV", "limitedMovableM": 3.4, "limitedFixedM": 3.0, "restrictedM": 1.2 },
+      { "minKV": 161.0, "maxKV": 169.0, "label": "161 kV - 169 kV", "limitedMovableM": 3.6, "limitedFixedM": 3.6, "restrictedM": 1.3 },
+      { "minKV": 230.0, "maxKV": 242.0, "label": "230 kV - 242 kV", "limitedMovableM": 4.0, "limitedFixedM": 4.0, "restrictedM": 1.7 },
+      { "minKV": 345.0, "maxKV": 362.0, "label": "345 kV - 362 kV", "limitedMovableM": 4.7, "limitedFixedM": 4.7, "restrictedM": 2.8 },
+      { "minKV": 500.0, "maxKV": 550.0, "label": "500 kV - 550 kV", "limitedMovableM": 5.8, "limitedFixedM": 5.8, "restrictedM": 3.6 },
+      { "minKV": 765.0, "maxKV": 800.0, "label": "765 kV - 800 kV", "limitedMovableM": 7.2, "limitedFixedM": 7.2, "restrictedM": 4.9 }
+    ]
+  },
+
+  "insulatingGloves": {
+    "source": "ASTM D120 / OSHA 1910.137 Table I-4 (max use voltage, AC rms)",
+    "classes": [
+      { "class": "00", "maxUseKV": 0.5, "color": "Beige" },
+      { "class": "0", "maxUseKV": 1.0, "color": "Red" },
+      { "class": "1", "maxUseKV": 7.5, "color": "White" },
+      { "class": "2", "maxUseKV": 17.0, "color": "Yellow" },
+      { "class": "3", "maxUseKV": 26.5, "color": "Green" },
+      { "class": "4", "maxUseKV": 36.0, "color": "Orange" }
+    ],
+    "aboveMaxNote": "Above 36 kV phase-to-phase: rubber insulating gloves are not rated for direct contact. Use live-line tools (hot sticks) rated for the system voltage and maintain minimum approach distance."
+  },
+
+  "switching": {
+    "source": "OSHA 1910.269(d), (m), (n) and NFPA 70E 120.5 - Establishing an Electrically Safe Work Condition",
+    "initialState": {
+      "authorized": false,
+      "breaker": "closed",
+      "disconnect": "closed",
+      "visuallyVerified": false,
+      "loto": false,
+      "testedDead": false,
+      "grounded": false,
+      "work": "none",
+      "clearanceReleased": false
+    },
+    "actions": {
+      "obtain_authorization": {
+        "label": "Obtain switching order / clearance authorization",
+        "phase": "planning",
+        "requires": [],
+        "effects": { "authorized": true }
+      },
+      "open_breaker": {
+        "label": "Open circuit breaker (load interrupt)",
+        "phase": "isolation",
+        "requires": [
+          {
+            "id": "AUTH-BEFORE-OPERATE",
+            "when": { "field": "authorized", "eq": true },
+            "severity": "warning",
+            "code": "OSHA 1910.269(m)(3)(ii)",
+            "message": "Switching device operated before a switching order / clearance authorization was obtained from the system operator.",
+            "remedy": "Obtain and read back the switching order before operating any device."
+          }
+        ],
+        "effects": { "breaker": "open" }
+      },
+      "open_disconnect": {
+        "label": "Open air-break disconnect switch",
+        "phase": "isolation",
+        "requires": [
+          {
+            "id": "DISCONNECT-UNDER-LOAD",
+            "when": { "field": "breaker", "eq": "open" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(iii) / NFPA 70E 120.5(3)",
+            "message": "Air-break disconnect switch opened under full load before the circuit breaker was opened. Disconnects are not load-break rated - opening under load draws a sustained arc across the blades.",
+            "remedy": "Open the circuit breaker first to interrupt load current, then open the disconnect to create a visible break."
+          },
+          {
+            "id": "AUTH-BEFORE-OPERATE",
+            "when": { "field": "authorized", "eq": true },
+            "severity": "warning",
+            "code": "OSHA 1910.269(m)(3)(ii)",
+            "message": "Switching device operated before a switching order / clearance authorization was obtained from the system operator.",
+            "remedy": "Obtain and read back the switching order before operating any device."
+          }
+        ],
+        "effects": { "disconnect": "open", "visuallyVerified": false }
+      },
+      "rack_out_breaker": {
+        "label": "Rack out breaker to disconnected position",
+        "phase": "isolation",
+        "requires": [
+          {
+            "id": "RACK-CLOSED-BREAKER",
+            "when": { "field": "breaker", "eq": "open" },
+            "severity": "critical",
+            "code": "NFPA 70E 130.2 / OSHA 1910.269(m)(3)(iii)",
+            "message": "Breaker racked out while closed. Racking a closed breaker separates the primary disconnects under load.",
+            "remedy": "Open and verify the breaker is open (mechanical indicator) before racking. Use a remote racking device where available."
+          }
+        ],
+        "effects": { "disconnect": "open", "visuallyVerified": false }
+      },
+      "verify_open": {
+        "label": "Visually verify open points (visible break)",
+        "phase": "isolation",
+        "requires": [
+          {
+            "id": "VERIFY-NO-VISIBLE-BREAK",
+            "when": { "field": "disconnect", "eq": "open" },
+            "severity": "warning",
+            "code": "NFPA 70E 120.5(3)",
+            "message": "Visual verification performed but no disconnecting device has been opened - there is no visible break to verify.",
+            "remedy": "Open the disconnect switch (or rack out the breaker) before visual verification."
+          }
+        ],
+        "effects": { "visuallyVerified": true }
+      },
+      "apply_loto": {
+        "label": "Apply lockout / tagout devices",
+        "phase": "isolation",
+        "requires": [
+          {
+            "id": "LOTO-ON-CLOSED-DEVICE",
+            "when": { "field": "disconnect", "eq": "open" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(d)(2)(iii) / NFPA 70E 120.5(4)",
+            "message": "Lockout/tagout applied while the isolating device is still closed. The lock does not establish isolation.",
+            "remedy": "Open all disconnecting means before applying locks and tags."
+          },
+          {
+            "id": "LOTO-BREAKER-CLOSED",
+            "when": { "field": "breaker", "eq": "open" },
+            "severity": "warning",
+            "code": "OSHA 1910.269(d)(6)(iv)",
+            "message": "Lockout/tagout applied while the circuit breaker is still closed.",
+            "remedy": "Open the circuit breaker and lock/tag its control circuit."
+          },
+          {
+            "id": "LOTO-NO-VERIFY",
+            "when": { "field": "visuallyVerified", "eq": true },
+            "severity": "warning",
+            "code": "NFPA 70E 120.5(3)",
+            "message": "Locks applied without first visually verifying that all blades are fully open.",
+            "remedy": "Insert a 'Visually verify open points' step before applying locks."
+          }
+        ],
+        "effects": { "loto": true }
+      },
+      "test_voltage": {
+        "label": "Test for absence of voltage (live-dead-live)",
+        "phase": "verification",
+        "requires": [
+          {
+            "id": "TEST-NOT-ISOLATED",
+            "when": { "field": "disconnect", "eq": "open" },
+            "severity": "critical",
+            "code": "NFPA 70E 120.5(7)",
+            "message": "Testing for absence of voltage on a circuit that has not been isolated. The worker is performing energized work without an energized work permit.",
+            "remedy": "Open and verify the isolation point before testing."
+          },
+          {
+            "id": "TEST-BEFORE-LOTO",
+            "when": { "field": "loto", "eq": true },
+            "severity": "warning",
+            "code": "NFPA 70E 120.5(4)-(7)",
+            "message": "Absence-of-voltage test performed before lockout/tagout was applied - the circuit could be re-energized after the test.",
+            "remedy": "Apply lockout/tagout, then test for absence of voltage."
+          }
+        ],
+        "effects": { "testedDead": true }
+      },
+      "apply_grounds": {
+        "label": "Install temporary protective grounds",
+        "phase": "verification",
+        "requires": [
+          {
+            "id": "GROUND-BEFORE-TEST",
+            "when": { "field": "testedDead", "eq": true },
+            "severity": "critical",
+            "code": "OSHA 1910.269(n)(5)",
+            "message": "Protective grounds installed before testing for absence of voltage. If the line is energized, applying grounds creates a bolted three-phase fault at the worker's hands.",
+            "remedy": "Test for absence of voltage with a rated detector (live-dead-live) immediately before installing grounds."
+          },
+          {
+            "id": "GROUND-ENERGIZED",
+            "when": { "field": "disconnect", "eq": "open" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(n)(5)",
+            "message": "Grounds installed on a circuit whose disconnecting device is still closed.",
+            "remedy": "Open, verify, and lock out the isolating device before grounding."
+          },
+          {
+            "id": "GROUND-BEFORE-LOTO",
+            "when": { "field": "loto", "eq": true },
+            "severity": "warning",
+            "code": "OSHA 1910.269(m)(3)(iv)",
+            "message": "Grounds installed before isolation devices were locked and tagged.",
+            "remedy": "Lock and tag all isolation points before grounding."
+          }
+        ],
+        "effects": { "grounded": true }
+      },
+      "perform_work": {
+        "label": "Issue clearance & perform work",
+        "phase": "work",
+        "requires": [
+          {
+            "id": "WORK-NO-GROUNDS",
+            "when": { "field": "grounded", "eq": true },
+            "severity": "critical",
+            "code": "OSHA 1910.269(n)(2)",
+            "message": "Work started on a de-energized line without protective grounds installed. Lines must be treated as energized until grounded.",
+            "remedy": "Install temporary protective grounds at the work location before issuing the clearance."
+          },
+          {
+            "id": "WORK-NO-TEST",
+            "when": { "field": "testedDead", "eq": true },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(vi)",
+            "message": "Work started without testing for absence of voltage.",
+            "remedy": "Test for absence of voltage before work begins."
+          },
+          {
+            "id": "WORK-NO-LOTO",
+            "when": { "field": "loto", "eq": true },
+            "severity": "critical",
+            "code": "OSHA 1910.269(d)(6) / 1910.147",
+            "message": "Work started without lockout/tagout on all sources.",
+            "remedy": "Apply locks and tags to all isolation points before work begins."
+          }
+        ],
+        "effects": { "work": "active" }
+      },
+      "complete_work": {
+        "label": "Work complete - crew clear & accounted",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "COMPLETE-NO-WORK",
+            "when": { "field": "work", "eq": "active" },
+            "severity": "info",
+            "code": "OSHA 1910.269(m)(3)(viii)",
+            "message": "Work marked complete but no work step was active.",
+            "remedy": "Confirm the step order of the work and completion steps."
+          }
+        ],
+        "effects": { "work": "complete" }
+      },
+      "remove_grounds": {
+        "label": "Remove temporary protective grounds",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "GROUNDS-REMOVED-DURING-WORK",
+            "when": { "field": "work", "ne": "active" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(n)(8)",
+            "message": "Protective grounds removed while work is still in progress.",
+            "remedy": "Confirm all crew members are clear and the work is complete before removing grounds."
+          }
+        ],
+        "effects": { "grounded": false }
+      },
+      "remove_loto": {
+        "label": "Remove lockout / tagout devices",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "LOTO-REMOVED-GROUNDS-ON",
+            "when": { "field": "grounded", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(ix)",
+            "message": "Locks and tags removed while protective grounds are still installed - a re-energization path into the grounds is now possible.",
+            "remedy": "Remove all protective grounds before removing locks and tags."
+          },
+          {
+            "id": "LOTO-REMOVED-DURING-WORK",
+            "when": { "field": "work", "ne": "active" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(d)(7) / 1910.147(e)",
+            "message": "Lockout/tagout removed while work is still in progress.",
+            "remedy": "Complete work and account for all employees before removing locks."
+          }
+        ],
+        "effects": { "loto": false }
+      },
+      "close_disconnect": {
+        "label": "Close air-break disconnect switch",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "ENERGIZE-INTO-GROUNDS-DISC",
+            "when": { "field": "grounded", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(ix)",
+            "message": "Disconnect closed with protective grounds still installed - energizing into grounds produces a bolted fault.",
+            "remedy": "Remove all protective grounds before any closing operation."
+          },
+          {
+            "id": "OPERATE-LOCKED-DISC",
+            "when": { "field": "loto", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(d)(7)",
+            "message": "Locked/tagged disconnect operated before lockout/tagout devices were removed.",
+            "remedy": "Remove locks and tags (by the employee who applied them) before operating the device."
+          },
+          {
+            "id": "DISCONNECT-CLOSE-UNDER-LOAD",
+            "when": { "field": "breaker", "eq": "open" },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(iii)",
+            "message": "Air-break disconnect closed while the circuit breaker is closed - the disconnect makes the load/fault current.",
+            "remedy": "Close the disconnect with the breaker open, then close the breaker to pick up load."
+          }
+        ],
+        "effects": { "disconnect": "closed", "testedDead": false, "visuallyVerified": false }
+      },
+      "close_breaker": {
+        "label": "Close circuit breaker (re-energize)",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "ENERGIZE-INTO-GROUNDS-CB",
+            "when": { "field": "grounded", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(ix)",
+            "message": "Circuit breaker closed with protective grounds still installed - energizing into grounds produces a bolted fault.",
+            "remedy": "Remove all protective grounds before re-energizing."
+          },
+          {
+            "id": "OPERATE-LOCKED-CB",
+            "when": { "field": "loto", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(d)(7)",
+            "message": "Circuit breaker closed while lockout/tagout devices are still applied.",
+            "remedy": "Remove locks and tags before re-energizing."
+          },
+          {
+            "id": "CB-CLOSE-DISC-OPEN",
+            "when": { "field": "disconnect", "eq": "closed" },
+            "severity": "info",
+            "code": "Operating practice",
+            "message": "Breaker closed while the disconnect is still open - the circuit remains de-energized.",
+            "remedy": "Close the disconnect first, then close the breaker."
+          }
+        ],
+        "effects": { "breaker": "closed", "testedDead": false }
+      },
+      "release_clearance": {
+        "label": "Release clearance to system operator",
+        "phase": "restoration",
+        "requires": [
+          {
+            "id": "RELEASE-GROUNDS-ON",
+            "when": { "field": "grounded", "eq": false },
+            "severity": "critical",
+            "code": "OSHA 1910.269(m)(3)(viii)",
+            "message": "Clearance released while protective grounds are still installed.",
+            "remedy": "Remove all grounds before releasing the clearance."
+          },
+          {
+            "id": "RELEASE-LOTO-ON",
+            "when": { "field": "loto", "eq": false },
+            "severity": "warning",
+            "code": "OSHA 1910.269(m)(3)(viii)",
+            "message": "Clearance released while lockout/tagout devices are still applied.",
+            "remedy": "Remove locks and tags before releasing the clearance."
+          }
+        ],
+        "effects": { "clearanceReleased": true }
+      }
+    },
+    "endStateHazards": [
+      {
+        "id": "END-GROUNDS-INSTALLED",
+        "if": { "field": "grounded", "eq": true },
+        "onlyIfAction": "remove_loto",
+        "severity": "critical",
+        "code": "OSHA 1910.269(n)(8)",
+        "message": "Procedure restores the circuit but ends with protective grounds still installed.",
+        "remedy": "Add a 'Remove temporary protective grounds' step before restoration."
+      },
+      {
+        "id": "END-WORK-ACTIVE",
+        "if": { "field": "work", "eq": "active" },
+        "onlyIfAction": "remove_loto",
+        "severity": "warning",
+        "code": "OSHA 1910.269(m)(3)(viii)",
+        "message": "Procedure restores the circuit without a 'work complete / crew clear' step.",
+        "remedy": "Add a 'Work complete - crew clear & accounted' step before removing grounds."
+      },
+      {
+        "id": "END-NO-AUTH",
+        "if": { "field": "authorized", "eq": false },
+        "severity": "warning",
+        "code": "OSHA 1910.269(m)(3)(ii)",
+        "message": "Procedure never obtains a switching order / clearance authorization.",
+        "remedy": "Add 'Obtain switching order / clearance authorization' as the first step."
+      }
+    ]
+  }
+}
